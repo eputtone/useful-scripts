@@ -11,8 +11,8 @@ GIT_PLOT_DATA=tmp_git_plot_data.plot
 git ls-tree --name-only -r HEAD | while read filename; do [[ $filename =~ $FILTER ]] && git blame -w "$filename"; done > $ALL_BLAME_FILE
 cat $ALL_BLAME_FILE| awk '{ for (i=1; i<=NF; ++i) if ($i ~ /[0-9]{4}-[0-9]{2}-[0-9]{2}/) { print $i; break; }}' | sort | uniq -c | awk '{print $2 " " $1}' > $GIT_PLOT_DATA
 
-DAY_ONE=$(head -1 git_plot_data.plot | cut -d ' ' -f1)
-DAY_END=$(tail -1 git_plot_data.plot | cut -d ' ' -f1)
+DAY_ONE=$(head -1 $GIT_PLOT_DATA  | cut -d ' ' -f1)
+DAY_END=$(tail -1 $GIT_PLOT_DATA  | cut -d ' ' -f1)
 MAX_ROWS=$(cut -d ' ' -f2 $GIT_PLOT_DATA | sort -n | tail -1)
 
 gnuplot << EOF
